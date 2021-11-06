@@ -12,7 +12,7 @@
       hide-default-footer
     >
       <template #header>
-        <v-toolbar dark color="blue darken-3" class="mb-1">
+        <v-toolbar dark>
           <v-text-field
             v-model="search"
             clearable
@@ -35,10 +35,10 @@
             />
             <v-spacer />
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
+              <v-btn large depressed :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn large depressed color="blue" :value="true">
+              <v-btn large depressed :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
@@ -57,8 +57,18 @@
             <v-card>
               <v-card-title class="subheading font-weight-bold">
                 {{ item.symbol }}
-                <v-btn outlined absolute right @click="navigateTo(item.symbol)">
+                <v-btn v-if="$vuetify.breakpoint.lgAndUp" outlined absolute right @click="navigateTo(item.symbol)">
                   Detailed information
+                </v-btn>
+                <v-btn
+                  v-else
+                  outlined
+                  absolute
+                  right
+                  icon
+                  @click="navigateTo(item.symbol)"
+                >
+                  <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </v-card-title>
 
@@ -68,14 +78,14 @@
                 <v-list-item v-for="(key, index) in filteredKeys" :key="index">
                   <v-list-item-content
                     v-show="key.key!=='lastVisited'"
-                    :class="{ 'blue--text': sortBy === key }"
+                    :class="{ 'grey--text': sortBy === key }"
                   >
                     {{ key.text }}:
                   </v-list-item-content>
                   <v-list-item-content
                     v-show="key.key!=='lastVisited'"
                     class="align-end"
-                    :class="{ 'blue--text': sortBy === key }"
+                    :class="{ 'grey--text': sortBy === key }"
                   >
                     {{ item[key.key] }}
                   </v-list-item-content>
@@ -87,7 +97,6 @@
       </template>
       <template #footer>
         <v-row
-          class="mt-2"
           align="center"
           justify="center"
         >
@@ -100,24 +109,16 @@
           </v-col>
           <v-spacer />
           <v-col cols="12" md="2" class="d-flex flex-row">
-            <span
-              class="mr-4
-            grey--text"
-            >
+            <span>
               Page {{ page }} of {{ numberOfPages }}
             </span>
             <br>
-            <span
-              class="mr-4
-            grey--text"
-            >
+            <span>
               Last update {{ lastUpdate }}
             </span>
             <v-btn
               fab
               dark
-              color="blue darken-3"
-              class="mr-1"
               @click="formerPage"
             >
               <v-icon>mdi-chevron-left</v-icon>
@@ -125,8 +126,6 @@
             <v-btn
               fab
               dark
-              color="blue darken-3"
-              class="ml-1"
               @click="nextPage"
             >
               <v-icon>mdi-chevron-right</v-icon>

@@ -3,8 +3,11 @@
     <v-card>
       <v-card-title class="subheading font-weight-bold">
         {{ singleCoin.symbol }}
-        <v-btn outlined right>
+        <v-btn v-if="$vuetify.breakpoint.lgAndUp" outlined right>
           Detailed information
+        </v-btn>
+        <v-btn v-else outlined absolute right icon>
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-card-title>
 
